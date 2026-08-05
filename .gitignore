@@ -1,0 +1,33 @@
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+.venv/
+
+# Environment Variables
+.env
+
+# Logs
+logs/
+*.log
+
+# VS Code
+.vscode/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Python
+.pytest_cache/
+.coverage
+
+# AI Models
+models/*.pt
+models/*.pth
+models/*.onnx
+
+# Dataset Cache
+dataset/cache/
