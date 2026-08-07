@@ -4,6 +4,7 @@ from tansee.camera.camera_manager import CameraManager
 from tansee.camera.fps_counter import FPSCounter
 from tansee.vision.hand_detector import HandDetector
 from tansee.vision.hand_landmarks import HandLandmarks
+from tansee.automation.mouse_controller import MouseController
 
 
 def main():
@@ -11,6 +12,7 @@ def main():
     camera = CameraManager()
     fps_counter = FPSCounter()
     hand_detector = HandDetector()
+    mouse = MouseController()
 
     if not camera.start():
         return
@@ -36,12 +38,21 @@ def main():
             height,
         )
 
+        print(f"Hands detected: {len(hands)}")
         # Draw red circle on index finger
         if hands:
 
             print(hands[0][8])
 
             x, y = hands[0][8]
+
+            screen_x = int((x / width) * mouse.screen_width)
+            screen_y = int((y / height) * mouse.screen_height)
+
+            print(f"Camera: ({x}, {y})")
+            print(f"Screen: ({screen_x}, {screen_y})")
+
+            mouse.move(screen_x, screen_y)
 
             cv2.circle(
                 frame,
