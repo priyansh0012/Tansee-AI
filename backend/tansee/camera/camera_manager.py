@@ -25,6 +25,7 @@ Responsibilities:
 
 from typing import Any
 import cv2
+from tansee.utils.logger import get_logger
 
 
 class CameraManager:
@@ -38,6 +39,7 @@ class CameraManager:
         """
         self.camera_index = camera_index
         self.capture = None
+        self.logger = get_logger("CameraManager")
 
     def start(self) -> bool:
         """
@@ -47,10 +49,10 @@ class CameraManager:
         self.capture = cv2.VideoCapture(self.camera_index)
 
         if not self.capture.isOpened():
-            print("❌ Failed to open camera.")
+            self.logger.error("Failed to open camera.")
             return False
 
-        print("✅ Camera started successfully.")
+        self.logger.info("Camera started successfully.")
         return True
 
     def read_frame(self) -> tuple[bool, Any]:
@@ -76,4 +78,4 @@ class CameraManager:
 
         cv2.destroyAllWindows()
 
-        print("🛑 Camera stopped.")
+        self.logger.info("Camera stopped.")
