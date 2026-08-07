@@ -2,11 +2,13 @@ import cv2
 
 from tansee.camera.camera_manager import CameraManager
 from tansee.camera.fps_counter import FPSCounter
+from tansee.vision.hand_detector import HandDetector
 
 
 def main():
     camera = CameraManager()
     fps_counter = FPSCounter()
+    hand_detector = HandDetector()
 
     if not camera.start():
         return
@@ -18,6 +20,9 @@ def main():
         if not success:
             print("❌ Unable to read frame.")
             break
+
+        results = hand_detector.find_hands(frame)
+        frame = hand_detector.draw_hands(frame, results)
 
         fps = fps_counter.update()
 
