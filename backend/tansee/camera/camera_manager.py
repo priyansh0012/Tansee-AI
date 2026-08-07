@@ -23,6 +23,7 @@ Responsibilities:
 ===========================================================
 """
 
+from typing import Any
 import cv2
 
 
@@ -41,10 +42,6 @@ class CameraManager:
     def start(self) -> bool:
         """
         Start the webcam.
-
-        Returns:
-            bool: True if camera starts successfully,
-                  False otherwise.
         """
 
         self.capture = cv2.VideoCapture(self.camera_index)
@@ -55,3 +52,28 @@ class CameraManager:
 
         print("✅ Camera started successfully.")
         return True
+
+    def read_frame(self) -> tuple[bool, Any]:
+        """
+        Read a single frame from the webcam.
+        """
+
+        if self.capture is None:
+            return False, None
+
+        success, frame = self.capture.read()
+
+        return success, frame
+
+    def stop(self):
+        """
+        Release the webcam.
+        """
+
+        if self.capture is not None:
+            self.capture.release()
+            self.capture = None
+
+        cv2.destroyAllWindows()
+
+        print("🛑 Camera stopped.")
